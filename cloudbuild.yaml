@@ -9,7 +9,7 @@ steps:
       - |-
         #!/bin/bash
         source deploy-to-cloud-run.sh
-        deployToCloudRun "$_REPLY_TOPIC" "$_SERVICE_NAME" "$PROJECT_ID" "$_TAG_TO_DEPLOY" "$_ENV" "$_SERVICE_ACCOUNT"
+        deployToCloudRun "$_REPLY_TOPIC" "$_SERVICE_NAME" "$PROJECT_ID" "$_TAG_TO_DEPLOY" "$_ENV" "$_SERVICE_ACCOUNT" "$_PROJECT_TYPE"
     env:
       - "PROJECT_ID=$PROJECT_ID"
 
@@ -32,4 +32,5 @@ substitutions:
   _TAG_TO_DEPLOY: $(body.message.data.cloudrun.tag)
   _ENV: $(body.message.data.cloudrun.env)
   _SERVICE_ACCOUNT: $(body.message.data.cloudrun.service_account)
+  _PROJECT_TYPE: $(body.message.data.cloudrun.projectType)
   _REPLY_TOPIC: $(body.message.data.reply_topic)
