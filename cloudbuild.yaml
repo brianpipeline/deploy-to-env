@@ -1,6 +1,6 @@
 steps:
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:latest"
-    id: "Reply back to pipeline"
+    id: "Deploy to Cloud Run"
     entrypoint: "bash"
     args:
       - "-eEuo"
