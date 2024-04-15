@@ -1,0 +1,35 @@
+steps:
+  - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:latest"
+    id: "Reply back to pipeline"
+    entrypoint: "bash"
+    args:
+      - "-eEuo"
+      - "pipefail"
+      - "-c"
+      - |-
+        #!/bin/bash
+        source deploy-to-cloud-run.sh
+        deployToCloudRun "$_REPLY_TOPIC" "$_SERVICE_NAME" "$PROJECT_ID" "$_TAG_TO_DEPLOY" "$_ENV" "$_SERVICE_ACCOUNT"
+    env:
+      - "PROJECT_ID=$PROJECT_ID"
+
+  - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:latest"
+    id: "Reply back to pipeline"
+    entrypoint: "bash"
+    args:
+      - "-eEuo"
+      - "pipefail"
+      - "-c"
+      - |-
+        #!/bin/bash
+        source send-message.sh
+        sendMessage "$_REPLY_TOPIC" "Pipeline succeeded."
+
+options:
+  substitutionOption: "ALLOW_LOOSE"
+substitutions:
+  _SERVICE_NAME: $(body.message.data.cloudrun.name)
+  _TAG_TO_DEPLOY: $(body.message.data.cloudrun.tag)
+  _ENV: $(body.message.data.cloudrun.env)
+  _SERVICE_ACCOUNT: $(body.message.data.cloudrun.service_account)
+  _REPLY_TOPIC: $(body.message.data.reply_topic)

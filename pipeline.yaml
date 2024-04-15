@@ -1,0 +1,4 @@
+type: "cloudbuild-deploy"
+pipelineType: "pubsub"
+pipelineName: "deploy-to-env-pipeline"
+
